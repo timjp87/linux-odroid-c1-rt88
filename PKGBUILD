@@ -29,6 +29,10 @@ prepare() {
 
   git apply ../0001-gcc-5.1-fix-for-mac-address.patch
 
+  echo "Generating Linux RT .config..."
+  
+  make arch=ARM odroidc_rt_defconfig
+
   # add pkgrel to extraversion
   sed -ri "s|^(EXTRAVERSION =)(.*)|\1 \2-${pkgrel}|" Makefile
 
@@ -53,8 +57,6 @@ build() {
   # Copy back our configuration (use with new kernel version)
   #cp ./.config ../${pkgbase}.config
 
-  make arch=ARM odroidc_rt_defconfig
-
   ####################
   # stop here
   # this is useful to configure the kernel
@@ -78,7 +80,7 @@ _package() {
 
   cd "${srcdir}/${_srcname}"
 
-  Krt88=arm
+  Karch=arm
 
   # get kernel version
   _kernver="$(make kernelrelease)"
