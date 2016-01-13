@@ -80,7 +80,7 @@ _package() {
 
   cd "${srcdir}/${_srcname}"
 
-  Karch=arm
+  KARCH=arm
 
   # get kernel version
   _kernver="$(make kernelrelease)"
@@ -89,8 +89,8 @@ _package() {
 
   mkdir -p "${pkgdir}"/{lib/modules,lib/firmware,boot/dtbs}
   make INSTALL_MOD_PATH="${pkgdir}" modules_install
-  cp arch/$Krt88/boot/uImage "${pkgdir}/boot/uImage"
-  cp arch/$Krt88/boot/dts/meson8b_odroidc.dtb "${pkgdir}/boot/dtbs"
+  cp arch/$KARCH/boot/uImage "${pkgdir}/boot/uImage"
+  cp arch/$KARCH/boot/dts/meson8b_odroidc.dtb "${pkgdir}/boot/dtbs"
 
   # set correct depmod command for install
   sed \
@@ -151,12 +151,12 @@ _package-headers() {
   done
 
   # copy arch includes for external modules
-  mkdir -p ${pkgdir}/usr/src/linux-${_kernver}/arch/$Krt88
-  cp -a arch/$Krt88/include ${pkgdir}/usr/src/linux-${_kernver}/arch/$Krt88/
-  mkdir -p ${pkgdir}/usr/src/linux-${_kernver}/arch/$Krt88/mach-meson8b
-  cp -a arch/$Krt88/mach-meson8b/include ${pkgdir}/usr/src/linux-${_kernver}/arch/$Krt88/mach-meson8b/
-  mkdir -p ${pkgdir}/usr/src/linux-${_kernver}/arch/$Krt88/plat-meson
-  cp -a arch/$Krt88/plat-meson/include ${pkgdir}/usr/src/linux-${_kernver}/arch/$Krt88/plat-meson/
+  mkdir -p ${pkgdir}/usr/src/linux-${_kernver}/arch/$KARCH
+  cp -a arch/$KARCH/include ${pkgdir}/usr/src/linux-${_kernver}/arch/$KARCH/
+  mkdir -p ${pkgdir}/usr/src/linux-${_kernver}/arch/$KARCH/mach-meson8b
+  cp -a arch/$KARCH/mach-meson8b/include ${pkgdir}/usr/src/linux-${_kernver}/arch/$KARCH/mach-meson8b/
+  mkdir -p ${pkgdir}/usr/src/linux-${_kernver}/arch/$KARCH/plat-meson
+  cp -a arch/$KARCH/plat-meson/include ${pkgdir}/usr/src/linux-${_kernver}/arch/$KARCH/plat-meson/
 
   # copy files necessary for later builds, like nvidia and vmware
   cp Module.symvers "${pkgdir}/usr/src/linux-${_kernver}"
@@ -166,15 +166,15 @@ _package-headers() {
   chmod og-w -R "${pkgdir}/usr/src/linux-${_kernver}/scripts"
   mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/.tmp_versions"
 
-  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/arch/${Krt88}/kernel"
+  mkdir -p "${pkgdir}/usr/src/linux-${_kernver}/arch/${KARCH}/kernel"
 
-  cp arch/${Krt88}/Makefile "${pkgdir}/usr/src/linux-${_kernver}/arch/${Krt88}/"
+  cp arch/${KARCH}/Makefile "${pkgdir}/usr/src/linux-${_kernver}/arch/${KARCH}/"
 
-  if [ "${Crt88}" = "i686" ]; then
-    cp arch/${Krt88}/Makefile_32.cpu "${pkgdir}/usr/src/linux-${_kernver}/arch/${Krt88}/"
+  if [ "${CARCH}" = "i686" ]; then
+    cp arch/${KARCH}/Makefile_32.cpu "${pkgdir}/usr/src/linux-${_kernver}/arch/${KARCH}/"
   fi
 
-  cp arch/${Krt88}/kernel/asm-offsets.s "${pkgdir}/usr/src/linux-${_kernver}/arch/${Krt88}/kernel/"
+  cp arch/${KARCH}/kernel/asm-offsets.s "${pkgdir}/usr/src/linux-${_kernver}/arch/${KARCH}/kernel/"
 
   # add headers for lirc package
   # pci
@@ -245,7 +245,7 @@ _package-headers() {
 
   #make uapi headers, some of them are needed for vpu/ipu usage
   mkdir -p "${srcdir}/headers"
-  make headers_install rt88=$Krt88 INSTALL_HDR_PATH="${srcdir}/headers"
+  make headers_install ARCH=$KARCH INSTALL_HDR_PATH="${srcdir}/headers"
 
   # copy in Kconfig files
   for i in `find . -name "Kconfig*"`; do
