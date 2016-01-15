@@ -4,14 +4,14 @@
 buildarch=4
 
 pkgbase=linux-odroid-c1-rt88
-_commit=c5a1dc3582ebad6a978778e28640728b7429f94c
+_commit=10903216f3babe504ee141936b00b7652fe03ba8
 _srcname=linux-rt-odroid-c1-${_commit}
 _kernelname=${pkgbase#linux}
 _desc="ODROID-C1 RT88 Kernel" 
 pkgver=3.10.80
-pkgrel=18
+pkgrel=1
 arch=('armv7h')
-url="http://github.com/chlorisdroid/linux-rt-odroid-c1"
+url="http://github.com/timjp87/linux-rt-odroid-c1"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools')
 options=('!strip')
@@ -19,7 +19,7 @@ source=("https://github.com/chlorisdroid/linux-rt-odroid-c1/archive/${_commit}.t
         "git+https://github.com/mdrjr/c1_bootini.git"
         '0001-gcc-5.1-fix-for-mac-address.patch'
         'amlogic.service')
-md5sums=('2d3ee096b6d656dbd958da3875080fbe'
+md5sums=('dc0c0088ee95b3c69fa560e37c85139f'
          'SKIP'
          '31b78a5c8c50bae59d62b11f53e14642'
          'b8956789318f49cec5b8bb0b41654a9b')
